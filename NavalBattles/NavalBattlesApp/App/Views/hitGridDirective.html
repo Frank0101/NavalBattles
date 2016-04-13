@@ -1,0 +1,8 @@
+﻿<div class="hit-grid-directive">
+    <table class="hit-grid size-x-{{board.sizeX}} size-y-{{board.sizeY}}">
+        <tr class="row" ng-repeat="row in range(board.sizeY)">
+            <td class="col" ng-repeat="col in range(board.sizeX)"
+                ng-click="selectCell(row, col)"></td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,41 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Naval Battles</title>
+    <link href="Content/navalBattles.min.css" rel="stylesheet" />
+</head>
+<body ng-app="navalBattlesApp" ng-controller="navalBattlesController">
+    <div class="naval-battles" ng-cloak>
+        <div class="dashboard">
+            <div class="player-board">
+                <div class="board-wrap">
+                    <board-directive board="playerBoard" show-ships="true"></board-directive>
+                </div>
+            </div>
+            <div class="enemy-board">
+                <div class="board-wrap">
+                    <board-directive board="enemyBoard" show-ships="isEndGame()"></board-directive>
+                    <div class="hit-grid-wrap" ng-if="!isEndGame() && isPlayerTurn">
+                        <hit-grid-directive board="enemyBoard" on-cell-select="endPlayerTurn()">
+                        </hit-grid-directive>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="end-game" ng-if="isEndGame()">
+            <p class="win-message" ng-if="playerWins()">
+                You win :)
+            </p>
+            <p class="lose-message" ng-if="enemyWins()">
+                You lose :(
+            </p>
+            <button ng-click="init()">
+                New Game
+            </button>
+        </div>
+    </div>
+
+    <script src="Scripts/angular.min.js"></script>
+    <script src="NavalBattlesApp/App/navalBattles.min.js"></script>
+</body>
+</html>

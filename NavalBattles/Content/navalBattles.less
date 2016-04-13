@@ -1,0 +1,190 @@
+﻿@cell-size: 30px;
+@grid-max-size: 12;
+@grid-min-size: 12;
+@ship-max-size: 6;
+@ship-min-size: 2;
+
+[ng-cloak],
+[data-ng-cloak],
+.ng-cloak {
+    display: none !important;
+}
+
+body {
+    background-color: rgb(25,25,25);
+}
+
+.naval-battles {
+    .dashboard {
+        text-align: center;
+
+        .player-board,
+        .enemy-board {
+            display: inline-block;
+            margin: 10px;
+            padding: 20px;
+            border: solid 2px rgb(50,50,50);
+
+            .board-wrap {
+                position: relative;
+
+                .hit-grid-wrap {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+            }
+        }
+
+        .player-board {
+            background-color: lightslategray;
+        }
+
+        .enemy-board {
+            background-color: rgb(144, 0, 32);
+        }
+    }
+
+    .end-game {
+        text-align: center;
+
+        p {
+            font-size: 25px;
+
+            &.win-message {
+                color: green;
+            }
+
+            &.lose-message {
+                color: red;
+            }
+        }
+    }
+}
+
+.board-directive {
+    position: relative;
+
+    .board {
+        border-collapse: collapse;
+        .makeGridSizeRules(@grid-max-size);
+
+        .row {
+            .col {
+                border: solid 1px dodgerblue;
+                background-color: lightskyblue;
+            }
+        }
+    }
+
+    .ships {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        .ship {
+            position: absolute;
+            height: @cell-size;
+            -moz-transform-origin: left bottom;
+            -ms-transform-origin: left bottom;
+            -o-transform-origin: left bottom;
+            -webkit-transform-origin: left bottom;
+            transform-origin: left bottom;
+            background-size: cover;
+            .makeShipSizeRules(@ship-max-size);
+
+            &.vertical {
+                -moz-transform: rotate(90deg) translateX(-@cell-size);
+                -ms-transform: rotate(90deg) translateX(-@cell-size);
+                -o-transform: rotate(90deg) translateX(-@cell-size);
+                -webkit-transform: rotate(90deg) translateX(-@cell-size);
+                transform: rotate(90deg) translateX(-@cell-size);
+            }
+        }
+    }
+
+    .hits {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        .ship-hits {
+            .hit {
+                position: absolute;
+                width: @cell-size;
+                height: @cell-size;
+                background-image: url('Images/hit.gif');
+                background-size: cover;
+            }
+        }
+    }
+
+    .miss-hits {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        .miss-hit {
+            position: absolute;
+            width: @cell-size;
+            height: @cell-size;
+            background-image: url('Images/miss-hit.png');
+            background-size: cover;
+        }
+    }
+
+    .makePosRules(@grid-max-size - 1);
+}
+
+.hit-grid-directive {
+    position: relative;
+
+    .hit-grid {
+        border-collapse: collapse;
+        .makeGridSizeRules(@grid-max-size);
+
+        .row {
+            .col {
+                opacity: 0.5;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: red;
+                }
+            }
+        }
+    }
+}
+
+.makeGridSizeRules(@size) when (@size >= @grid-min-size) {
+    &.size-x-@{size} {
+        width: @cell-size * @size;
+    }
+
+    &.size-y-@{size} {
+        height: @cell-size * @size;
+    }
+
+    .makeGridSizeRules(@size - 1);
+}
+
+.makeShipSizeRules(@size) when (@size >= @ship-min-size) {
+    &.size-@{size} {
+        width: @cell-size * @size;
+        background-image: url('Images/ship-@{size}.png');
+    }
+
+    .makeShipSizeRules(@size - 1);
+}
+
+.makePosRules(@pos) when (@pos > 0) {
+    .pos-x-@{pos} {
+        left: @cell-size * @pos;
+    }
+
+    .pos-y-@{pos} {
+        top: @cell-size * @pos;
+    }
+
+    .makePosRules(@pos - 1);
+}
