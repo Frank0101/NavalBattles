@@ -1,4 +1,4 @@
-#Naval Battles
+# Naval Battles
 
 This is an implementation of the classic naval battles game.
 
